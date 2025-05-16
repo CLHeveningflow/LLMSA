@@ -1,0 +1,1 @@
+python3 Analysis.py -t prompt -s /Users/eveningflow/LLMSA/merged_parse.json -b 空指针解引用 -id 0ed3537697a70ef13197fb49827934ea -c /Users/eveningflow/LLMSA/testcase/saga-result-ampm/ampm/ -x /Users/eveningflow/LLMSA/testcase/saga-result-ampm/bt1.axf_db19b7e9.bc.xml
