@@ -1,7 +1,6 @@
-from assistant import Assistant
 from tools import TraceSlice, ParseBugReport
-from llm import LLMModel
-import os,sys
+import os
+import sys
 import json
 import argparse
 
@@ -22,7 +21,7 @@ Reason代表结论原因, 如果满足提到的缺陷, 描述代码的逻辑, �
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="parameters:")
-    parser.add_argument('-t', type=str, choices=['assistant', 'prompt'], help='mode: assistant or prompt')
+#    parser.add_argument('-t', type=str, choices=['assistant', 'prompt'], help='mode: assistant or prompt')
     parser.add_argument('-c', type=str, help='directory of source code.')
     parser.add_argument('-s', type=str, help='dircetory of source code summary')
     parser.add_argument('-b', type=str, help='directory of defect type and info')
@@ -32,31 +31,24 @@ def parse_arguments():
     
 if __name__ == '__main__':
     args = parse_arguments()
-    if args.t == 'assistant':
-        current_file_path = os.path.dirname(__file__)
-        weakness = {}
-        with open('rules.json', 'r', encoding='utf-8') as file:
-            weakness = json.load(file)
-        model = LLMModel.get_openai_model_info("Aliyun_QwQ32B")
-        assistant = Assistant.BasicAssistant(llm_openai_model=model, prompts_path=[current_file_path + '/prompts/analysis.txt'], 
-                                        bug_report=current_file_path + '/testcase/saga-result-ampm/bt1.axf_db19b7e9.bc.xml', weakness_des=weakness)
-        assistant.analysis_all(current_file_path + "/testcase/saga-result-ampm/ampm/", '/Users/eveningflow/LLMSA/merged_parse.json')
-    elif args.t == 'prompt':
-        prompt = base_prompt
-        defect_type = args.b
-        defect_description = ""
-        bug_report_file = args.x        #xml file
-        bug_id = args.id                #id
-        function_summary = args.s       #'/Users/eveningflow/LLMSA/merged_parse.json'
-        source_code_dirc = args.c       #current_file_path + "/testcase/saga-result-ampm/ampm/"
-        data = TraceSlice.read_json_to_dict(function_summary)
-        bug_info = ParseBugReport.parse_bug_info_by_id(bug_report_file, bug_id)
-        trace_nodes = TraceSlice.getTraceFunFromBugInfo(bug_info=bug_info, source_dirc=source_code_dirc)
-        code = TraceSlice.get_slice_code(data, trace_nodes)
-        prompt_analysis = str(f'待分析的缺陷类型为: {defect_type}, 代码片段中, 假定跟着注释 "// trace" 的代码行是程序的实际执行流。代码片段如下:\n{code}')
-        prompt += prompt_analysis
-        print(prompt)
-    else:
-        print("Error: parameter -t must be 'assistant' or 'prompt'.")
+
+    prompt = base_prompt
+    defect_type = args.b
+    defect_description = ""
+    bug_report_file = args.x        #xml file
+    bug_id = args.id                #id
+    function_summary = args.s       #'/Users/eveningflow/LLMSA/merged_parse.json'
+    source_code_dirc = args.c       #current_file_path + "/testcase/saga-result-ampm/ampm/"
+    if source_code_dirc[-1] != '/':
+        source_code_dirc += '/'
+    data = TraceSlice.read_json_to_dict(function_summary)
+    bug_info = ParseBugReport.parse_bug_info_by_id(bug_report_file, bug_id)
+    trace_nodes = TraceSlice.getTraceFunFromBugInfo(bug_info=bug_info, source_dirc=source_code_dirc)
+    code = TraceSlice.get_slice_code(data, trace_nodes)
+    prompt_analysis = str(f'待分析的缺陷类型为: {defect_type}, 代码片段中, 假定跟着注释 "// trace" 的代码行是程序的实际执行流。代码片段如下:\n{code}')
+    prompt += prompt_analysis
+    print(prompt)
 
 
+#python ./Analysis.py 
+#-c E:/LLMSA/LLMSA/testcase/saga-result-ampm/ampm/ -s E:/LLMSA/LLMSA/merged_parse.json -b 空指针解引用 -x E:/LLMSA/LLMSA/testcase/saga-result-ampm/bt1.axf_db19b7e9.bc.xml -id 4769f974799ba00c8c73591c6c6e1c72

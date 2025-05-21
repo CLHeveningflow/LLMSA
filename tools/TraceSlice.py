@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from .DetectInfo import Bug_Info, Slice
-import json
+import json, sys
 
 def getSourceCodeFromLine(info_slice: Slice, line: int, max_line_pre_func: int) -> str:
     source = ""
@@ -79,7 +79,6 @@ def find_function_by_line(data: dict, file_path: str, line: int) -> Slice:
     file_data = data.get(file_path, {})
     if not file_data:
         return None
-    
     for file, file_infos in file_data.items():
         for func_name, func_info in file_infos["defines"].items():
             if func_info.get('type') == 'function':
