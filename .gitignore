@@ -9,3 +9,4 @@ parsefun.txt
 analysis_output.txt
 rules.json
 merged_parse.json
+dist/

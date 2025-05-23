@@ -102,10 +102,10 @@ if __name__ == "__main__":
 
     # 添加参数
     parser.add_argument('--data', type=str, help='input data file')
-    parser.add_argument('--dir', type=str, help='parse dir')                #/Users/eveningflow/LLMSA/testcase/saga-result-ampm/ampm/__src__code__
-    parser.add_argument('-o','--output', type=str, help='parse output')
-    parser.add_argument('--pt', type=str, help='doxygen parser tool dir')       #/Users/eveningflow/doxygen/build/bin/doxyparse
-    parser.add_argument('--npt', type=str, help='doxygen no pre parser tool dir')  #/Users/eveningflow/doxygen/build/bin/doxyparse-no-pre
+    parser.add_argument('--dir', type=str, help='parse dir')                #E:/LLMSA/LLMSA/testcase/saga-result-ampm/ampm
+    parser.add_argument('-o','--output', type=str, help='parse output')     #merged_parse.json
+    parser.add_argument('--pt', type=str, help='doxygen parser tool dir')       #E:/LLMSA/doxyparse-win/bin/doxyparse.exe
+    parser.add_argument('--npt', type=str, help='doxygen no pre parser tool dir')  #E:/LLMSA/doxyparse-win/bin/doxyparse-no-pre.exe
     # 解析命令行参数
     args = parser.parse_args()
     output = 'parse.json'
@@ -114,8 +114,14 @@ if __name__ == "__main__":
     if args.data:
         parse_convert(args.data, output)
     elif args.dir:
+        code_dir = args.dir.replace('\\', '/').replace('//', '/')
+        pt = args.pt.replace('\\', '/').replace('//', '/')
+        npt = args.npt.replace('\\', '/').replace('//', '/')
+
         parse_data = "parse.txt"
-        run_doxyparse(args.dir, parse_data, args.pt)
+        run_doxyparse(code_dir, parse_data, pt)
         parse_data1 = "parsefun.txt"
-        run_doxyparse(args.dir, parse_data1, args.npt)
-        merge_convert(parse_data, parse_data1, 'merged_parse.json')
+        run_doxyparse(code_dir, parse_data1, npt)
+        merge_convert(parse_data, parse_data1, output)
+
+# python parser_convert.py --dir E:/LLMSA/LLMSA/testcase/saga-result-ampm/ampm

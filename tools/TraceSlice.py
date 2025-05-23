@@ -45,7 +45,7 @@ def getSourceCodeFromSlice(info_slice: Slice) -> list[str]:
 def getSourceCodeFromSink(bug_info: Bug_Info, source_dirc: str) -> str:
     source = ''
     start_line, end_line = bug_info.sink_start_line, bug_info.sink_end_line # int(bug_info[0]), int(bug_info[1])
-    file_path = getRealFilePath(bug_info.file_path, source_dirc)
+    file_path = source_dirc + file_path #getRealFilePath(bug_info.file_path, source_dirc)
     print(file_path, start_line, end_line)
     return getSourceCodeFromSlice(Slice(file_path=file_path, start_line=start_line, end_line=end_line))
 
@@ -61,7 +61,9 @@ def getTraceFunFromBugInfo(bug_info: Bug_Info, source_dirc: str) -> list:
     trace_fun = []
     for traceNode in bug_info.info:
         file_path = traceNode.file
-        real_file_path = getRealFilePath(file_path=file_path, source_dirc=source_dirc)
+        real_file_path = source_dirc + file_path  #getRealFilePath(file_path=file_path, source_dirc=source_dirc)
+        # 替换反斜杠和双斜杠为正斜杠
+        real_file_path = real_file_path.replace('\\', '/').replace('//', '/')
         trace_fun.append((real_file_path, traceNode.fun, traceNode.line, traceNode.info))
     return trace_fun
 
@@ -97,7 +99,7 @@ def get_slice_code(data, trace_nodes: list):
     slices = {}
     trace_cnt = 0
     for file_path, fun, line, info in trace_nodes:
-        if fun == '@global':
+        if fun == '' or fun == '@global':
             slice = Slice(file_path, line, line)
             source_list = getSourceCodeFromSlice(slice)
             code += ''.join(source_list).rstrip('\n') + f' // trace {trace_cnt}: {info}\n'

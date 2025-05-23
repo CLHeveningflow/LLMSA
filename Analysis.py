@@ -10,13 +10,16 @@ int fun(int *ptr) {    // trace 0: 变量ptr传入函数
     free(ptr);  // trace 1: freepath: 变量ptr被用作参数
     int res = *ptr;  // trace 2: usepath: 读取变量ptr的值
 }
-2. 请**只**使用 JS0N 格式返回结果, **不要**包含任何其他解释性文字或 Markdowm 代码块标记, 输出结果包含Result和Reason两部分。
+
+请使用 JS0N 格式返回结果, 不要包含任何其他解释性文字或 Markdowm 代码块标记, 输出结果包含Result和Reason两部分。
 Result代表分析结果, 如果根据trace执行的代码为正报, 回答 True, 误报则回答 False。
 Reason代表结论原因, 如果满足提到的缺陷, 描述代码的逻辑, 包括缺陷产生的原因以及该缺陷可能如何影响程序的执行；如果不满足提到的缺陷, 说明理由, 解释为什么该缺陷报告不成立（例如数据流不可行、缺陷满足的条件实际情况下不会发生等）。
 {
     "Result": True,
     "Reason": "变量ptr 在'trace 1'被传入函数, 在'trace 2'进行了释放, 并在'trace 3'进行了解引用, 缺陷路径成立"
 }
+
+2. 如果缺陷是正报，请给出代码中的修复点和修复建议，并给出被修改后的相关代码。
 """
 
 def parse_arguments():
@@ -39,8 +42,6 @@ if __name__ == '__main__':
     bug_id = args.id                #id
     function_summary = args.s       #'/Users/eveningflow/LLMSA/merged_parse.json'
     source_code_dirc = args.c       #current_file_path + "/testcase/saga-result-ampm/ampm/"
-    if source_code_dirc[-1] != '/':
-        source_code_dirc += '/'
     data = TraceSlice.read_json_to_dict(function_summary)
     bug_info = ParseBugReport.parse_bug_info_by_id(bug_report_file, bug_id)
     trace_nodes = TraceSlice.getTraceFunFromBugInfo(bug_info=bug_info, source_dirc=source_code_dirc)

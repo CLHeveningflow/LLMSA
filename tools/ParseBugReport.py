@@ -20,8 +20,13 @@ def parse_bug_info(bug) -> Bug_Info:
     info = []
     
     sinkfun = bug.find('SinkFun')
-    sink_start_line = int(sinkfun.get('line'))
-    sink_end_line = int(sinkfun.get('endline'))
+    if sinkfun is None:
+        sink_start_line, sink_end_line = -1, -1
+    else:
+        sink_start_line = sinkfun.get('line')
+        sink_end_line = sinkfun.get('endline')
+        sink_start_line = -1 if sink_start_line is None else int(sink_start_line)
+        sink_end_line = -1 if sink_end_line is None else int(sink_end_line)
     
     # 获取跟踪信息
     traceNode = bug.find('TraceInfos').find('TraceNode')
