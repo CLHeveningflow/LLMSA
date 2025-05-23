@@ -25,7 +25,7 @@ class Slice:
         print(self.__str__())
 
 class Bug_Info:
-    def __init__(self, id: str, file_path: str, sink_start_line: int, sink_end_line: int, weak: str, info: list[Trace_Node]):
+    def __init__(self, id: str, file_path: str, sink_start_line: int, sink_end_line: int, weak: str, info: list):
         self.id = id
         self.file_path = file_path
         self.sink_start_line = sink_start_line

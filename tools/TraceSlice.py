@@ -24,7 +24,7 @@ def getSourceCodeFromLine(info_slice: Slice, line: int, max_line_pre_func: int) 
         
     return source
 
-def getSourceCodeFromSlice(info_slice: Slice) -> list[str]:
+def getSourceCodeFromSlice(info_slice: Slice) -> list:
     source = []
     if info_slice == None:
         print("Error: info_slice is None.")

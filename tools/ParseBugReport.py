@@ -40,7 +40,7 @@ def parse_bug_info(bug) -> Bug_Info:
     bug_info = Bug_Info(id=bug_id, file_path=file_path, sink_start_line=sink_start_line, sink_end_line=sink_end_line, weak=weak, info=info)
     return bug_info
 
-def parse_bug_info_onetrace(xml_file) -> list[Bug_Info]:
+def parse_bug_info_onetrace(xml_file) -> list:
     # 解析XML文件
     tree = ET.parse(xml_file)
     root = tree.getroot()
