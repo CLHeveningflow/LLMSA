@@ -10,3 +10,5 @@ analysis_output.txt
 rules.json
 merged_parse.json
 dist/
+run.sh
+*.spec
