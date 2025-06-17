@@ -82,7 +82,7 @@ if __name__ == '__main__':
         with open(prompt_file, 'r', encoding='utf-8') as prompt_stream:
             prompt = prompt_stream.read()
     except FileNotFoundError:
-        logging.error(f"文件 {file_path} 不存在")
+        logging.error(f"文件 {prompt_file} 不存在")
         sys.exit(-1)
     except Exception as e:
         logging.error(f"读取文件时出错: {e}")
