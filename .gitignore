@@ -10,5 +10,6 @@ analysis_output.txt
 rules.json
 merged_parse.json
 dist/
-run.sh
+*run.sh
 *.spec
+llmsa.log
