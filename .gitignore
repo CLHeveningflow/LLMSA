@@ -1,14 +1,9 @@
-build/
+*build/
 testcase/
-llm.json
-bug_report.txt
 */__pycache__/
 __pycache__/
-parse.txt
-parsefun.txt
-analysis_output.txt
-rules.json
-merged_parse.json
 dist/
 run.sh
 *.spec
+*.log
+*.json
