@@ -82,10 +82,10 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description='跨平台任务运行器')
-    parser.add_argument('--config-dir', default="configs",
-                       help='配置文件目录 (默认: configs)')
-    parser.add_argument('--base-dir', default="env",
-                       help='可执行文件基础目录 (默认: env)')
+    parser.add_argument('--config-dir', default="config",
+                       help='配置文件目录 (默认: config)')
+    parser.add_argument('--base-dir', default="env_test",
+                       help='可执行文件基础目录 (默认: env_test)')
     parser.add_argument('--list', action='store_true',
                        help='列出所有可用配置')
     parser.add_argument('config', nargs='?',
